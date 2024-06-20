@@ -1,6 +1,8 @@
 import streamlit as st
 import pandas as pd
 import plotly.express as px
+from mapHeat import plotMap
+
 
 st.set_page_config(layout='wide')
 st.title("Dashboard")
@@ -62,15 +64,19 @@ fig_abertura_fechamento = px.line(dados_combined, x='ano', y=['aberturas', 'fech
 fig_margem = px.pie(df, values=dados_combined['aberturas'], names=dados_combined['ano'])
 
 
-
-
 #construindo a pagina
 with bloco_total_aberturas:
     st.metric(label='Total de aberturas', value=total_aberturas)
 with blocoTotalFechamentos:
     st.metric(label='Total de Fechamentos', value=total_fechamentos)
+
 with blocoMargem:
     st.metric(label='Margem', value=margem)
+    fig_margem
+    
+with bloco_grafico_abertura_fechamento:
+    fig_abertura_fechamento
 
-blocoMargem.plotly_chart(fig_margem)
-bloco_grafico_abertura_fechamento.plotly_chart(fig_abertura_fechamento)
+figMap = plotMap(df)
+with bloco_mapa:
+    figMap
