@@ -3,6 +3,7 @@ import pandas as pd
 import plotly.express as px
 from mapHeat import plotMap
 
+from graphs import graphBarAberturas, graphBarFechamentos
 
 st.set_page_config(layout='wide')
 st.title("Informações Empresariais")
@@ -73,14 +74,16 @@ with tab1:
     
     # Separando espaços
     bloco_total_aberturas, blocoTotalFechamentos, blocoMargem = st.columns(3)
-    bloco_mapa, bloco_grafico_abertura_fechamento = st.columns(2)
-    bloco_grafico_aberturas, bloco_grafico_fechamentos = st.columns(2)
+    bloco_grafico_abertura_fechamento = st.columns(1)
+    bloco_mapa, bloco_grafico_barras_aberturas_fechamento = st.columns(2)
     blocoTabela = st.columns(1)
     
     with bloco_total_aberturas:
         st.metric(label='Total de aberturas', value=total_aberturas)
+
     with blocoTotalFechamentos:
         st.metric(label='Total de Fechamentos', value=total_fechamentos)
+
     with blocoMargem:
         col1, col2 = st.columns(2)
         with col1:
@@ -88,13 +91,22 @@ with tab1:
         with col2:
             st.plotly_chart(fig_margem, use_container_width=True)
             
+    with bloco_grafico_abertura_fechamento[0]:
+        st.plotly_chart(fig_abertura_fechamento, use_container_width=True)
+
     figMap = plotMap(df)
     with bloco_mapa:
         figMap
-                    
-    with bloco_grafico_abertura_fechamento:
-        fig_abertura_fechamento
-    
+
+    with bloco_grafico_barras_aberturas_fechamento:
+        bloco_grafico_aberturas, bloco_grafico_fechamentos = st.columns(2)
+        
+        with bloco_grafico_aberturas:
+            st.plotly_chart(graphBarAberturas.plotGraphAberturas(), use_container_width=True)
+
+        with bloco_grafico_fechamentos:
+            st.plotly_chart(graphBarFechamentos.plotGraphFechamentos(), use_container_width=True)   
+                 
 with tab2:
     
     st.write("Loading...")
