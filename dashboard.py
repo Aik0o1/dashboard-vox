@@ -1,8 +1,8 @@
 import streamlit as st
 import pandas as pd
 import plotly.express as px
-from graphs import mapHeat, pieMargin
-
+from graphs import mapHeat, pieMargin, graphBarAberturas, graphBarFechamentos, openCloseLineChart, statusLineChart
+from blocks import blockMap
 
 st.set_page_config(layout='wide')
 st.title("Informações Empresariais")
@@ -22,19 +22,21 @@ porte = st.sidebar.selectbox("Porte", ["Todos"] + list(df['porte'].unique()))
 atividade = st.sidebar.selectbox("Atividade", ["Todas"] + list(df['atividade'].unique()))
 
 # Aplicando os filtros de acordo com as seleções na barra lateral
+df_filtered = df.copy()
+
 if ano != "Todos":
-    df = df[df["abertura"].dt.year == ano]
+    df_filtered = df_filtered[df_filtered["abertura"].dt.year == ano]
 if municipio != "Todos":
-    df = df[df["municipio"] == municipio]
+    df_filtered = df_filtered[df_filtered["municipio"] == municipio]
 if porte != "Todos":
-    df = df[df["porte"] == porte]
+    df_filtered = df_filtered[df_filtered["porte"] == porte]
 if atividade != "Todas":
-    df = df[df["atividade"] == atividade]
+    df_filtered = df_filtered[df_filtered["atividade"] == atividade]
 
 
 #Total de aberturas, fechamentos e margem
-total_aberturas = df['anoAbertura'].count()
-total_fechamentos = df['anoFechamento'].count()
+total_aberturas = df_filtered['anoAbertura'].count()
+total_fechamentos = df_filtered['anoFechamento'].count()
 margem = total_aberturas - total_fechamentos
 
 # Preparar dados para o gráfico de margem
@@ -47,8 +49,8 @@ df_margem = pd.DataFrame(data_margem)
 
 
 #filtro de dados para grafico de abertura vs fechamentos
-aberturas_por_ano = df.groupby('anoAbertura').size().reset_index(name='aberturas')
-fechamentos_por_ano = df.dropna(subset=['anoFechamento']).groupby('anoFechamento').size().reset_index(name='fechamentos')
+aberturas_por_ano = df_filtered.groupby('anoAbertura').size().reset_index(name='aberturas')
+fechamentos_por_ano = df_filtered.dropna(subset=['anoFechamento']).groupby('anoFechamento').size().reset_index(name='fechamentos')
 
 aberturas_por_ano.rename(columns={'anoAbertura': 'ano'}, inplace=True)
 fechamentos_por_ano.rename(columns={'anoFechamento': 'ano'}, inplace=True)
@@ -67,7 +69,7 @@ with tab1:
     # Separando espaços
     bloco_total_aberturas, blocoTotalFechamentos, blocoMargem = st.columns(3)
     bloco_grafico_abertura_fechamento = subtab1, subtab2 = st.tabs(["Gráfico", "Tabela"])
-    bloco_mapa, bloco_grafico_aberturas, bloco_grafico_fechamentos = st.columns(3)
+    bloco_mapa, bloco_grafico_barras_aberturas_fechamento = st.columns(2)
     blocoTabela = st.columns(1)
     
     with bloco_total_aberturas:
@@ -85,18 +87,26 @@ with tab1:
 
 
     with bloco_grafico_abertura_fechamento[0]:
-        subtab1.plotly_chart(fig_abertura_fechamento)
+        subtab1.plotly_chart(openCloseLineChart.lineChart(df_filtered))
         
     with bloco_grafico_abertura_fechamento[1]:
         subtab2.write(dados_combined)
 
-
     with bloco_mapa:
-        st.plotly_chart(mapHeat.plotMap(df))
+        #st.plotly_chart(mapHeat.plotMap(df_filtered))
+        blockMap.blocoMapa(df, ano, porte, atividade)
 
+    with bloco_grafico_barras_aberturas_fechamento:
+        bloco_grafico_aberturas, bloco_grafico_fechamentos = st.columns(2)
         
-                    
+        with bloco_grafico_aberturas:
+            st.plotly_chart(graphBarAberturas.plotGraphAberturas(df_filtered), use_container_width=True)
+
+        with bloco_grafico_fechamentos:
+            st.plotly_chart(graphBarFechamentos.plotGraphFechamentos(df_filtered), use_container_width=True)
     
 with tab2:
+    statusLineChart.lineChart(df_filtered)
     
     st.write("Loading...")
+
