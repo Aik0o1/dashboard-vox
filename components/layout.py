@@ -1,5 +1,5 @@
 import streamlit as st
-from graphs import mapHeat, pieMargin, openCloseLineChart
+from graphs import mapHeat, pieMargin, lineChart
 
 
 def layout(total_positivo, total_negativo, margem, tabela_margem, merge_abertura_fechamento, titulo_positivo, titulo_negativo):
@@ -24,13 +24,12 @@ def layout(total_positivo, total_negativo, margem, tabela_margem, merge_abertura
 
 
     with bloco_grafico_abertura_fechamento[0]:
-        subtab1.plotly_chart(openCloseLineChart.graph(merge_abertura_fechamento, titulo_positivo, titulo_negativo))
+        subtab1.plotly_chart(lineChart.graph(merge_abertura_fechamento, titulo_positivo, titulo_negativo))
         
     with bloco_grafico_abertura_fechamento[1]:
         subtab2.dataframe(merge_abertura_fechamento, use_container_width=True)
 
-
-
+    
     """with bloco_mapa:
         st.plotly_chart(mapHeat.plotMap(df))"""
 
