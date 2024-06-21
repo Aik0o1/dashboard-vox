@@ -1,6 +1,7 @@
 import pandas as pd
 import plotly.express as px
 import geopandas as gpd
+import plotly.express as px
 
 def plotMap(df):
 
