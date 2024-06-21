@@ -9,8 +9,10 @@ Este projeto é um dashboard interativo desenvolvido em `Streamlit`, que tem com
 O projeto está organizado da seguinte forma:
 
 - `assets`: Contém dados de teste gerados pelo site [Mockaroo](https://www.mockaroo.com/).
+- `components`: Contém o arquivo layout.py, que reúne a estrutura de blocos da página.
 - `graphs`: Contém os gráficos de margem e mapa de calor, retornados em funções separadas.
 - `dashboard.py`: Arquivo principal que executa o dashboard.
+- `main.py`: Arquivo em que são realizados os tratamentos e exportações de dados provenientes do arquivo csv.
 - `requirements.txt`: Arquivo de dependências necessárias para rodar o projeto.
 
 ## Instalação
