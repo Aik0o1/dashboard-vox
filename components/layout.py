@@ -6,7 +6,7 @@ def layout(df, total_positivo, total_negativo, margem, tabela_margem, merge_aber
 
     bloco_total_positivo, blocoTotalFechamentos, blocoMargem = st.columns(3)
     bloco_grafico_abertura_fechamento = subtab1, subtab2 = st.tabs(["Gráfico", "Tabela"])
-    bloco_mapa, bloco_grafico_aberturas, bloco_grafico_fechamentos = st.columns(3)
+    bloco_mapa, bloco_grafico_barras = st.columns(2)
     blocoTabela = st.columns(1)
     
     with bloco_total_positivo:
@@ -27,7 +27,7 @@ def layout(df, total_positivo, total_negativo, margem, tabela_margem, merge_aber
         subtab1.plotly_chart(lineChart.graph(merge_abertura_fechamento, titulo_positivo, titulo_negativo))
         
     with bloco_grafico_abertura_fechamento[1]:
-        subtab2.dataframe(df, use_container_width=True)
+        subtab2.dataframe(merge_abertura_fechamento, use_container_width=True)
 
     
     with bloco_mapa:
@@ -41,5 +41,11 @@ def layout(df, total_positivo, total_negativo, margem, tabela_margem, merge_aber
 
         st.plotly_chart(mapHeat.plotMap(df_filter_map))
 
-        
+    with bloco_grafico_barras:
+        with st.container():
+       
+            st.plotly_chart(graphBar.plotGraphBar(df, titulo_positivo, titulo_positivo), use_container_width=True)
+
+            st.plotly_chart(graphBar.plotGraphBar(df, titulo_negativo, titulo_negativo), use_container_width=True)
+
                     
