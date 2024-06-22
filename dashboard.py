@@ -41,7 +41,6 @@ if atividade != "Todas":
  df_margem_ativas_inativas, merge_ativas_inativas) = load_and_prepare_data(df_filtered)
 
 
-print(merge_abertura_fechamento)
 #construindo a pagina
 with tab1:
     titulo_positivo, titulo_negativo = "aberturas", "fechamentos"
