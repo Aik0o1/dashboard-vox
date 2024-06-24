@@ -13,4 +13,4 @@ def plotGraphBar(df, metric, title):
     
     data_sorted = data.sort_values(by=metric, ascending=False).head()
     fig = px.bar(data_sorted, x=metric, y="municipio", orientation="h", title=f"{title.capitalize()}", height=250)
-    return fig
+    return fig, data
