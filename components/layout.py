@@ -31,6 +31,7 @@ def layout(df, total_positivo, total_negativo, margem, tabela_margem, merge_aber
 
     
     with bloco_mapa:
+        tab1, tab2 = st.tabs(["Mapa", "Tabela"])
         df_filter_map = df.copy()
         if ano != "Todos":
             df_filter_map = df_filter_map[df_filter_map["abertura"].dt.year == ano]
@@ -39,13 +40,31 @@ def layout(df, total_positivo, total_negativo, margem, tabela_margem, merge_aber
         if atividade != "Todas":
             df_filter_map = df_filter_map[df_filter_map["atividade"] == atividade]
 
-        st.plotly_chart(mapHeat.plotMap(df_filter_map))
+        mapa, tabela = mapHeat.plotMap(df_filter_map)
+        with tab1:
+            st.plotly_chart(mapa)
+        with tab2:
+            st.write(tabela)
 
     with bloco_grafico_barras:
-        with st.container():
-       
-            st.plotly_chart(graphBar.plotGraphBar(df, titulo_positivo, titulo_positivo), use_container_width=True)
+        tab1, tab2 = st.tabs(["Gráfico", "Tabela"])
+        with tab1:
+            with st.container():
+                grafico_positivo, tabela_positiva = graphBar.plotGraphBar(df, titulo_positivo, titulo_positivo)
+                grafico_negativo, tabela_negativa = graphBar.plotGraphBar(df, titulo_negativo, titulo_negativo)
 
-            st.plotly_chart(graphBar.plotGraphBar(df, titulo_negativo, titulo_negativo), use_container_width=True)
+                st.plotly_chart(grafico_positivo, use_container_width=True)
+                st.plotly_chart(grafico_negativo, use_container_width=True)
+        with tab2:
+            col1, col2 = st.columns(2)  
+            with col1:
+                st.write(tabela_positiva)
+            with col2:
+                st.write(tabela_negativa)
 
+
+
+    with blocoTabela[0]:
+        st.title("Tabela completa")
+        st.write(df, use_container_width=True)
                     
