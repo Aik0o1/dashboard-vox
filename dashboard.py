@@ -1,17 +1,16 @@
 import streamlit as st
+from components import layout
+from main import load_and_prepare_data
 import pandas as pd
-import plotly.express as px
-from mapHeat import plotMap
-
-from graphs import graphBarAberturas, graphBarFechamentos
-
-st.set_page_config(layout='wide')
-st.title("Informações Empresariais")
 
 df = pd.read_csv("assets/dadosFakess.csv")
+    
 df['abertura'] = pd.to_datetime(df['abertura'])
 df['fechamento'] = pd.to_datetime(df['fechamento'])
 df = df.sort_values(by='municipio')
+
+st.set_page_config(layout='wide')
+st.title("Informações Empresariais")
 
 # Criar abas
 tab1, tab2 = st.tabs(["Aberturas e Fechamentos", "Atividade e Inatividade"])
@@ -23,90 +22,30 @@ porte = st.sidebar.selectbox("Porte", ["Todos"] + list(df['porte'].unique()))
 atividade = st.sidebar.selectbox("Atividade", ["Todas"] + list(df['atividade'].unique()))
 
 # Aplicando os filtros de acordo com as seleções na barra lateral
+df_filtered = df.copy()
+
 if ano != "Todos":
-    df = df[df["abertura"].dt.year == ano]
+    df_filtered = df_filtered[df_filtered["abertura"].dt.year == ano]
 if municipio != "Todos":
-    df = df[df["municipio"] == municipio]
+    df_filtered = df_filtered[df_filtered["municipio"] == municipio]
 if porte != "Todos":
-    df = df[df["porte"] == porte]
+    df_filtered = df_filtered[df_filtered["porte"] == porte]
 if atividade != "Todas":
-    df = df[df["atividade"] == atividade]
+    df_filtered = df_filtered[df_filtered["atividade"] == atividade]
 
 
-#Total de aberturas, fechamentos e margem
-total_aberturas = df['anoAbertura'].count()
-total_fechamentos = df['anoFechamento'].count()
-margem = total_aberturas - total_fechamentos
-
-# Preparar dados para o gráfico de margem
-data_margem = {
-    'Tipo': ['Aberturas', 'Fechamentos'],
-    'Quantidade': [total_aberturas, total_fechamentos]
-}
-
-df_margem = pd.DataFrame(data_margem)
+# Recebe dados tratados
+(total_aberturas, total_fechamentos, margem_abertura_fechamento, 
+ df_margem_abertura_fechamento, merge_abertura_fechamento,
+ total_ativas, total_inativas, margem_ativas_inativas, 
+ df_margem_ativas_inativas, merge_ativas_inativas) = load_and_prepare_data(df_filtered)
 
 
-#filtro de dados para grafico de abertura vs fechamentos
-aberturas_por_ano = df.groupby('anoAbertura').size().reset_index(name='aberturas')
-fechamentos_por_ano = df.dropna(subset=['anoFechamento']).groupby('anoFechamento').size().reset_index(name='fechamentos')
-
-aberturas_por_ano.rename(columns={'anoAbertura': 'ano'}, inplace=True)
-fechamentos_por_ano.rename(columns={'anoFechamento': 'ano'}, inplace=True)
-
-dados_combined = pd.merge(aberturas_por_ano, fechamentos_por_ano, on='ano', how='outer').fillna(0)
-
-
-# graficos
-fig_abertura_fechamento = px.line(dados_combined, x='ano', y=['aberturas', 'fechamentos'], 
-    title='Número de Aberturas e Fechamentos por Ano',
-    labels={'value': 'Quantidade', 'variable': 'Tipo'})
-fig_margem = px.pie(df_margem, values='Quantidade', names='Tipo', hole=0.6)
-
-# Gráfico de pizza sem legenda
-fig_margem.update_layout(
-    showlegend=False,
-    margin=dict(t=0, b=0, l=0, r=0),
-    height=70  # Ajuste a altura conforme necessário
-)
 #construindo a pagina
 with tab1:
+    titulo_positivo, titulo_negativo = "aberturas", "fechamentos"
+    layout.layout(df_filtered, total_aberturas, total_fechamentos, margem_abertura_fechamento, df_margem_abertura_fechamento, merge_abertura_fechamento, titulo_positivo, titulo_negativo, ano, porte, municipio, atividade)
     
-    # Separando espaços
-    bloco_total_aberturas, blocoTotalFechamentos, blocoMargem = st.columns(3)
-    bloco_grafico_abertura_fechamento = st.columns(1)
-    bloco_mapa, bloco_grafico_barras_aberturas_fechamento = st.columns(2)
-    blocoTabela = st.columns(1)
-    
-    with bloco_total_aberturas:
-        st.metric(label='Total de aberturas', value=total_aberturas)
-
-    with blocoTotalFechamentos:
-        st.metric(label='Total de Fechamentos', value=total_fechamentos)
-
-    with blocoMargem:
-        col1, col2 = st.columns(2)
-        with col1:
-            st.metric(label='Margem', value=margem)
-        with col2:
-            st.plotly_chart(fig_margem, use_container_width=True)
-            
-    with bloco_grafico_abertura_fechamento[0]:
-        st.plotly_chart(fig_abertura_fechamento, use_container_width=True)
-
-    figMap = plotMap(df)
-    with bloco_mapa:
-        figMap
-
-    with bloco_grafico_barras_aberturas_fechamento:
-        bloco_grafico_aberturas, bloco_grafico_fechamentos = st.columns(2)
-        
-        with bloco_grafico_aberturas:
-            st.plotly_chart(graphBarAberturas.plotGraphAberturas(), use_container_width=True)
-
-        with bloco_grafico_fechamentos:
-            st.plotly_chart(graphBarFechamentos.plotGraphFechamentos(), use_container_width=True)   
-                 
 with tab2:
-    
-    st.write("Loading...")
+    titulo_positivo, titulo_negativo = "ativas", "inativas"
+    layout.layout(df_filtered, total_ativas, total_inativas, margem_ativas_inativas, df_margem_ativas_inativas, merge_ativas_inativas, titulo_positivo, titulo_negativo, ano, porte, municipio, atividade)
