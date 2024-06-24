@@ -31,4 +31,4 @@ def plotMap(df):
         title_text="Cidades Destaque",
         margin={"r":0,"t":100,"l":0,"b":0})
 
-    return figMapa
+    return figMapa, dados_municipio
