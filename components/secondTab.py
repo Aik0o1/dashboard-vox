@@ -2,7 +2,7 @@ import streamlit as st
 from graphs import mapHeat, pieMargin, graphBar, treeMap
 
 
-def layout(df, ano, porte, municipio, atividade, titulo_bar1, titulo_bar2):
+def layout(df, ano, porte, municipio, atividade, titulo_bar1, titulo_bar2, df_sem_filtro):
 
     bloco_arvore = st.area_chart()
     bloco_mapa, bloco_grafico_barras = st.columns(2)
@@ -13,15 +13,7 @@ def layout(df, ano, porte, municipio, atividade, titulo_bar1, titulo_bar2):
 
     with bloco_mapa:
         tab1, tab2 = st.tabs(["Mapa", "Tabela"])
-        df_filter_map = df.copy()
-        if ano != "Todos":
-            df_filter_map = df_filter_map[df_filter_map["abertura"].dt.year == ano]
-        if porte != "Todos":
-            df_filter_map = df_filter_map[df_filter_map["porte"] == porte]
-        if atividade != "Todas":
-            df_filter_map = df_filter_map[df_filter_map["atividade"] == atividade]
-
-        mapa, tabela = mapHeat.plotMap(df_filter_map)
+        mapa, tabela = mapHeat.plotMap(df)
         with tab1:
             st.plotly_chart(mapa)
         with tab2:

@@ -32,15 +32,7 @@ def layout(df, total_positivo, total_negativo, margem, tabela_margem, merge_aber
     
     with bloco_mapa:
         tab1, tab2 = st.tabs(["Mapa", "Tabela"])
-        df_filter_map = df.copy()
-        if ano != "Todos":
-            df_filter_map = df_filter_map[df_filter_map["abertura"].dt.year == ano]
-        if porte != "Todos":
-            df_filter_map = df_filter_map[df_filter_map["porte"] == porte]
-        if atividade != "Todas":
-            df_filter_map = df_filter_map[df_filter_map["atividade"] == atividade]
-
-        mapa, tabela = mapHeat.plotMap(df_filter_map)
+        mapa, tabela = mapHeat.plotMap(df)
         with tab1:
             st.plotly_chart(mapa)
         with tab2:
