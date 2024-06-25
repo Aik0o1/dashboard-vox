@@ -2,7 +2,7 @@ import streamlit as st
 from graphs import mapHeat, pieMargin, graphBar, treeMap
 
 
-def layout(df, ano, porte, municipio, atividade, titulo_bar1, titulo_bar2, df_sem_filtro):
+def layout(df, ano, porte, municipio, atividade, titulo_bar1, titulo_bar2):
 
     bloco_arvore = st.area_chart()
     bloco_mapa, bloco_grafico_barras = st.columns(2)
