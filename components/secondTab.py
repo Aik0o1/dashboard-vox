@@ -22,8 +22,6 @@ def layout(df, total_positivo, total_negativo, margem, tabela_margem, merge_aber
         with col2:
             st.plotly_chart(pieMargin.graph(tabela_margem), use_container_width=True)
 
-
-        
     with bloco_mapa:
         tab1, tab2 = st.tabs(["Mapa", "Tabela"])
         df_filter_map = df.copy()
@@ -45,8 +43,8 @@ def layout(df, total_positivo, total_negativo, margem, tabela_margem, merge_aber
             grafico_positivo = graphBar.plotGraphBar(df, titulo_positivo, titulo_positivo)
             grafico_negativo = graphBar.plotGraphBar(df, titulo_negativo, titulo_negativo)
 
-            st.plotly_chart(grafico_positivo[0], use_container_width=True)
-            st.plotly_chart(grafico_negativo[0], use_container_width=True)
+            st.plotly_chart(grafico_positivo, use_container_width=True)
+            st.plotly_chart(grafico_negativo, use_container_width=True)
                     
     with bloco_arvore:
-        st.plotly_chart(treeMap.showGraph(), use_container_width=True)
+        st.plotly_chart(treeMap.plotMapTree(df), use_container_width=True)

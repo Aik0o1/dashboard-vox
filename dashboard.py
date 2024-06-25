@@ -1,5 +1,5 @@
 import streamlit as st
-from components import layout
+from components import firstTab, secondTab
 from main import load_and_prepare_data
 import pandas as pd
 
@@ -44,8 +44,8 @@ if atividade != "Todas":
 #construindo a pagina
 with tab1:
     titulo_positivo, titulo_negativo = "aberturas", "fechamentos"
-    layout.layout(df_filtered, total_aberturas, total_fechamentos, margem_abertura_fechamento, df_margem_abertura_fechamento, merge_abertura_fechamento, titulo_positivo, titulo_negativo, ano, porte, municipio, atividade)
+    firstTab.layout(df_filtered, total_aberturas, total_fechamentos, margem_abertura_fechamento, df_margem_abertura_fechamento, merge_abertura_fechamento, titulo_positivo, titulo_negativo, ano, porte, municipio, atividade)
     
 with tab2:
     titulo_positivo, titulo_negativo = "ativas", "inativas"
-    layout.layout(df_filtered, total_ativas, total_inativas, margem_ativas_inativas, df_margem_ativas_inativas, merge_ativas_inativas, titulo_positivo, titulo_negativo, ano, porte, municipio, atividade)
+    secondTab.layout(df_filtered, total_ativas, total_inativas, margem_ativas_inativas, df_margem_ativas_inativas, merge_ativas_inativas, titulo_positivo, titulo_negativo, ano, porte, municipio, atividade)
