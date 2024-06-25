@@ -2,16 +2,25 @@ import pandas as pd
 import plotly.express as px
 import geopandas as gpd
 import plotly.express as px
+import requests
 
 def plotMap(df):
+    url = "https://raw.githubusercontent.com/tbrugz/geodata-br/master/geojson/geojs-22-mun.json"
+    response = requests.get(url)
 
+    # Save the downloaded content to a local file (e.g., piaui_municipios.json)
+    with open("piaui_municipios.json", "wb") as f:
+        f.write(response.content)
+        
     aberturas_por_municipio = df.groupby('municipio').size().reset_index(name='aberturas')
     fechamentos_por_municipio = df.dropna(subset=['anoFechamento']).groupby('municipio').size().reset_index(name='fechamentos')
     dados_municipio = pd.merge(aberturas_por_municipio, fechamentos_por_municipio, on='municipio', how='outer').fillna(0)
     dados_municipio.rename(columns={'municipio': 'name'}, inplace=True)
 
     # Carrega os dados dos municípios do Piauí a partir de um arquivo GeoJSON
-    gdf = gpd.read_file("https://raw.githubusercontent.com/tbrugz/geodata-br/master/geojson/geojs-22-mun.json")
+    #gdf = gpd.read_file("https://raw.githubusercontent.com/tbrugz/geodata-br/master/geojson/geojs-22-mun.json")
+    gdf = gpd.read_file("piaui_municipios.json")  # Assuming you saved it as piaui_municipios.json
+
 
     #colunas do GeoDataFrame
 
@@ -31,4 +40,4 @@ def plotMap(df):
         title_text="Cidades Destaque",
         margin={"r":0,"t":100,"l":0,"b":0})
 
-    return figMapa
+    return figMapa, dados_municipio
