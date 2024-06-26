@@ -15,13 +15,13 @@ def plotMap(df, coluna_criterio="aberturas"):
     gdf = gdf.merge(dados_municipio, on='name', how='left').fillna(0)
 
     # Adiciona uma coluna de critério baseado no filtro
-    gdf['criterio'] = gdf[coluna_criterio]
+    gdf['Aberturas'] = gdf[coluna_criterio]
 
     # Mapa
     figMapa = px.choropleth(gdf,
                             geojson=gdf.geometry,
                             locations=gdf.index,
-                            color="criterio",
+                            color="Aberturas",
                             hover_name="name",
                             projection="mercator",
                             color_continuous_scale="Blues")
@@ -30,6 +30,7 @@ def plotMap(df, coluna_criterio="aberturas"):
     figMapa.update_geos(fitbounds="locations", visible=False)
     figMapa.update_layout(
         title_text="Cidades Destaque",
-        margin={"r":0,"t":100,"l":0,"b":0})
+        margin={"r":0,"t":100,"l":0,"b":0},
+        dragmode=False)
 
     return figMapa, dados_municipio

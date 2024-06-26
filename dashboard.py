@@ -3,7 +3,7 @@ from components import firstTab, secondTab
 from main import load_and_prepare_data
 import pandas as pd
 
-df = pd.read_csv("assets\dadosFakes20k.csv")    
+df = pd.read_csv("assets/dadosFakes20k.csv")    
 df['abertura'] = pd.to_datetime(df['abertura'])
 df['fechamento'] = pd.to_datetime(df['fechamento'])
 df = df.sort_values(by='municipio')
