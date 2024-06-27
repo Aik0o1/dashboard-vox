@@ -17,9 +17,6 @@ df['mesFechamento'] = df['fechamento'].dt.month
 st.set_page_config(layout='wide')
 st.title("Informações Empresariais")
 
-#css
-with open("assets/style.css") as f:
-    st.markdown(f"<style>{f.read()}</style>",unsafe_allow_html=True)
 
 # Criar abas
 tab1, tab2 = st.tabs(["Aberturas e Fechamentos", "Atividade e Inatividade"])
