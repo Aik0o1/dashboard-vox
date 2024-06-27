@@ -1,12 +1,22 @@
 import streamlit as st
-from graphs import mapHeat, pieMargin, graphBar, treeMap
+from graphs import mapHeat, graphBar, treeMap
 
 
 def layout(df, ano, porte, municipio, atividade, titulo_bar1, titulo_bar2):
 
+    bloco_total_ativas, bloco_cidade_mais_ativa, bloco_cidade_menos_ativa = st.columns(3)
     bloco_arvore = st.area_chart()
     bloco_mapa, bloco_grafico_barras = st.columns(2)
     blocoTabela = st.columns(1)
+    
+    with bloco_total_ativas:
+        st.metric(label='Total de ativas', value=10)
+
+    with bloco_cidade_mais_ativa:
+        st.metric(label='Atividade destaque', value='xxx')
+
+    with bloco_cidade_menos_ativa:
+        st.metric(label='Atividade', value='yyy')
 
     with bloco_arvore:
         st.plotly_chart(treeMap.plotMapTree(df), use_container_width=True)

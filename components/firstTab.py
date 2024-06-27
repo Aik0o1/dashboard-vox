@@ -5,7 +5,8 @@ from graphs import mapHeat, pieMargin, lineChart, graphBar
 def layout(df, total_positivo, total_negativo, margem, tabela_margem, merge_abertura_fechamento, titulo_positivo, titulo_negativo, ano, porte, municipio, atividade):
 
     bloco_total_positivo, blocoTotalFechamentos, blocoMargem = st.columns(3)
-    bloco_grafico_abertura_fechamento = subtab1, subtab2 = st.tabs(["Gráfico", "Tabela"])
+    grafico_abertura_fechamento_anual = st.area_chart()
+    # grafico_abertura_fechamento_mensal = st.columns(2)
     bloco_mapa, bloco_grafico_barras = st.columns(2)
     blocoTabela = st.columns(1)
     
@@ -23,11 +24,11 @@ def layout(df, total_positivo, total_negativo, margem, tabela_margem, merge_aber
             st.plotly_chart(pieMargin.graph(tabela_margem), use_container_width=True)
 
 
-    with bloco_grafico_abertura_fechamento[0]:
-        subtab1.plotly_chart(lineChart.graph(merge_abertura_fechamento, titulo_positivo, titulo_negativo, 'periodo'))
+    with grafico_abertura_fechamento_anual:
+        st.plotly_chart(lineChart.graph(merge_abertura_fechamento, titulo_positivo, titulo_negativo, 'periodo')[1])
         
-    with bloco_grafico_abertura_fechamento[1]:
-        subtab2.dataframe(merge_abertura_fechamento, use_container_width=True)
+    # with grafico_abertura_fechamento_mensal:
+        # st.plotly_chart(lineChart.graph(merge_abertura_fechamento, titulo_positivo, titulo_negativo, 'periodo')[1])
 
     
     with bloco_mapa:
@@ -53,9 +54,3 @@ def layout(df, total_positivo, total_negativo, margem, tabela_margem, merge_aber
 
             st.plotly_chart(grafico_positivo, use_container_width=True)
             st.plotly_chart(grafico_negativo, use_container_width=True)
-        
-
-    with blocoTabela[0]:
-        st.title("Tabela completa")
-        st.write(df)
-                    
