@@ -1,8 +1,6 @@
 import pandas as pd
 
-def load_and_prepare_data(df):
-    #df = pd.read_csv("assets/dadosFakess.csv")
-    
+def load_and_prepare_data(df): 
     df['abertura'] = pd.to_datetime(df['abertura'])
     df['fechamento'] = pd.to_datetime(df['fechamento'])
     df = df.sort_values(by='municipio')

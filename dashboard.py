@@ -35,16 +35,10 @@ if porte != "Todos":
 if atividade != "Todas":
     df_filtered = df_filtered[df_filtered["atividade"] == atividade]
 
-
 # Recebe dados tratados
 (total_aberturas, total_fechamentos, margem_abertura_fechamento, 
  df_margem_abertura_fechamento, merge_abertura_fechamento, 
  df_porte, df_natureza) = load_and_prepare_data(df_filtered)
-
-# print(aberturas_por_periodo, fechamentos_por_periodo)
-
-# merge_abertura_fechamento = pd.merge(aberturas_por_periodo, fechamentos_por_periodo, on='periodo', how='outer').fillna(0)
-# print(merge_abertura_fechamento)
 
 #construindo a pagina
 with tab1:

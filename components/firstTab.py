@@ -1,14 +1,15 @@
 import streamlit as st
-from graphs import mapHeat, pieMargin, lineChart, graphBar
+from graphs import barChartYears, barChartMonths, mapHeat, pieMargin, graphBar, stackedBar
 
 
 def layout(df, total_positivo, total_negativo, margem, tabela_margem, merge_abertura_fechamento, titulo_positivo, titulo_negativo, ano, porte, municipio, atividade):
 
     bloco_total_positivo, blocoTotalFechamentos, blocoMargem = st.columns(3)
     grafico_abertura_fechamento_anual = st.area_chart()
-    # grafico_abertura_fechamento_mensal = st.columns(2)
+    grafico_abertura_fechamento_mensal = st.area_chart()
+    grafico_agrupado_porte, grafico_agrupado_natureza = st.columns(2)
+    # grafico_arvore = st.area_chart()
     bloco_mapa, bloco_grafico_barras = st.columns(2)
-    blocoTabela = st.columns(1)
     
     with bloco_total_positivo:
         st.metric(label='Total de aberturas', value=total_positivo)
@@ -23,14 +24,19 @@ def layout(df, total_positivo, total_negativo, margem, tabela_margem, merge_aber
         with col2:
             st.plotly_chart(pieMargin.graph(tabela_margem), use_container_width=True)
 
-
     with grafico_abertura_fechamento_anual:
-        st.plotly_chart(lineChart.graph(merge_abertura_fechamento, titulo_positivo, titulo_negativo, 'periodo')[1])
+        st.plotly_chart(barChartYears.graph(merge_abertura_fechamento))
         
-    # with grafico_abertura_fechamento_mensal:
-        # st.plotly_chart(lineChart.graph(merge_abertura_fechamento, titulo_positivo, titulo_negativo, 'periodo')[1])
+    with grafico_abertura_fechamento_mensal:
+        st.plotly_chart(barChartMonths.graph(df))
 
+    with grafico_agrupado_porte:
+        st.plotly_chart(stackedBar.graph(df)[0])
+        
     
+    with grafico_agrupado_natureza:
+        st.plotly_chart(stackedBar.graph(df)[1])
+        
     with bloco_mapa:
         tab1, tab2 = st.tabs(["Mapa", "Tabela"])
         df_filter_map = df.copy()
