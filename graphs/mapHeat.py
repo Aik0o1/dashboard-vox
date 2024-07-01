@@ -7,6 +7,7 @@ def plotMap(df, coluna_criterio="aberturas"):
     fechamentos_por_municipio = df.dropna(subset=['anoFechamento']).groupby('municipio').size().reset_index(name='fechamentos')
     dados_municipio = pd.merge(aberturas_por_municipio, fechamentos_por_municipio, on='municipio', how='outer').fillna(0)
     dados_municipio.rename(columns={'municipio': 'name'}, inplace=True)
+    print(df)
 
     # Carrega os dados dos municípios do Piauí a partir de um arquivo GeoJSON
     gdf = gpd.read_file("https://raw.githubusercontent.com/tbrugz/geodata-br/master/geojson/geojs-22-mun.json")
@@ -29,8 +30,14 @@ def plotMap(df, coluna_criterio="aberturas"):
     # Atualizar layout do mapa
     figMapa.update_geos(fitbounds="locations", visible=False)
     figMapa.update_layout(
-        title_text="Cidades Destaque",
-        margin={"r":0,"t":100,"l":0,"b":0},
+        # title_text="Cidades Destaque",
+        margin={"r":0,"t":0,"l":0,"b":0},
         dragmode=False)
+    # df_abertura = dados_municipio[['name','aberturas']]
+    # df_sorted_aberturas = df_abertura.sort_values(by='aberturas', ascending=False)
+    
+    # df_fechamento = dados_municipio[['name','fechamentos']]
+    # df_sorted_fechamento = df_fechamento.sort_values(by='fechamentos', ascending=False)
+    # print(df)
 
-    return figMapa, dados_municipio
+    return figMapa #df_sorted_aberturas, df_sorted_fechamento   
