@@ -50,21 +50,21 @@ if atividade != "Todas":
 
 
 # Ajustar o agrupamento e eixo_x com base na seleção do ano
-if ano != "Todos":
-    aberturas_por_periodo = df_filtered.groupby('mesAbertura').size().reset_index(name='aberturas')
-    fechamentos_por_periodo = df_filtered.dropna(subset=['mesFechamento']).groupby('mesFechamento').size().reset_index(name='fechamentos')
+# if ano != "Todos":
+#     aberturas_por_periodo = df_filtered.groupby('mesAbertura').size().reset_index(name='aberturas')
+#     fechamentos_por_periodo = df_filtered.dropna(subset=['mesFechamento']).groupby('mesFechamento').size().reset_index(name='fechamentos')
     
-    aberturas_por_periodo.rename(columns={'mesAbertura': 'periodo'}, inplace=True)
-    fechamentos_por_periodo.rename(columns={'mesFechamento': 'periodo'}, inplace=True)
+#     aberturas_por_periodo.rename(columns={'mesAbertura': 'periodo'}, inplace=True)
+#     fechamentos_por_periodo.rename(columns={'mesFechamento': 'periodo'}, inplace=True)
     
-else:
-    aberturas_por_periodo = df_filtered.groupby('anoAbertura').size().reset_index(name='aberturas')
-    fechamentos_por_periodo = df_filtered.dropna(subset=['anoFechamento']).groupby('anoFechamento').size().reset_index(name='fechamentos')
+# else:
+#     aberturas_por_periodo = df_filtered.groupby('anoAbertura').size().reset_index(name='aberturas')
+#     fechamentos_por_periodo = df_filtered.dropna(subset=['anoFechamento']).groupby('anoFechamento').size().reset_index(name='fechamentos')
     
-    aberturas_por_periodo.rename(columns={'anoAbertura': 'periodo'}, inplace=True)
-    fechamentos_por_periodo.rename(columns={'anoFechamento': 'periodo'}, inplace=True)
+#     aberturas_por_periodo.rename(columns={'anoAbertura': 'periodo'}, inplace=True)
+#     fechamentos_por_periodo.rename(columns={'anoFechamento': 'periodo'}, inplace=True)
 
-merge_abertura_fechamento = pd.merge(aberturas_por_periodo, fechamentos_por_periodo, on='periodo', how='outer').fillna(0)
+# merge_abertura_fechamento = pd.merge(aberturas_por_periodo, fechamentos_por_periodo, on='periodo', how='outer').fillna(0)
 
 
 #construindo a pagina
