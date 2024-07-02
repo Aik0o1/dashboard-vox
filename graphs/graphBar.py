@@ -18,6 +18,6 @@ def plotGraphBar(df, metric, title):
             data = df.groupby('natureza juridica').size().reset_index(name='quantidade')
         
         data_sorted = data.sort_values(by=metric, ascending=False).head()
-        fig = px.bar(data_sorted, x='quantidade', y=metric, orientation="h", title=f"{title.capitalize()}", height=250)
+        fig = px.bar(data_sorted, x='quantidade', y=metric, orientation="h", title=f"{title.capitalize()}", height=350)
 
     return fig

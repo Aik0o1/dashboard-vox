@@ -1,5 +1,5 @@
 import streamlit as st
-from graphs import mapHeat, pieMargin, lineChart, graphBar, plotTable,stackedBar, barChartYears, barChartMonths
+from graphs import mapHeat, pieMargin, circles, lineChart, graphBar, plotTable,stackedBar, barChartYears, barChartMonths
 
 
 def layout(df, total_positivo, total_negativo, margem, tabela_margem, merge_abertura_fechamento, titulo_positivo, titulo_negativo, ano, porte, municipio, atividade):
@@ -31,14 +31,6 @@ def layout(df, total_positivo, total_negativo, margem, tabela_margem, merge_aber
     with grafico_abertura_fechamento_mensal:
         st.plotly_chart(barChartMonths.graph(df))
     
-    with grafico_agrupado_porte:
-        st.plotly_chart(stackedBar.graph(df)[0])
-        
-    
-    with grafico_agrupado_natureza:
-        st.plotly_chart(stackedBar.graph(df)[1])
-
-
 
     with bloco_mapa:
         st.header("Cidades Destaque")
@@ -48,13 +40,19 @@ def layout(df, total_positivo, total_negativo, margem, tabela_margem, merge_aber
         tabela_abertura, tabela_fechamento = st.columns(2)
         with tabela_abertura:
             st.header(" ")
-            st.write(plotTable.plotTableTab1(df, 'anoAbertura', 'Aberturas'))
+            st.dataframe(plotTable.plotTableTab1(df, 'anoAbertura', 'Aberturas'))
         
         with tabela_fechamento:
             st.header(" ")
-            st.write(plotTable.plotTableTab1(df, 'anoFechamento', 'Fechamentos'))
+            st.dataframe(plotTable.plotTableTab1(df, 'anoFechamento', 'Fechamentos'))
 
 
     with blocoTabela[0]:
         st.title("Tabela completa")
-        st.write(df)
+        st.dataframe(df)
+    
+    with grafico_agrupado_porte:
+        st.plotly_chart(circles.graph(df), use_container_width=True)
+            
+            # with col5:
+            #     st.plotly_chart(circles.graph(tabela_margem), use_container_width=True)
