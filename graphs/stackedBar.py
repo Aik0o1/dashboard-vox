@@ -1,18 +1,33 @@
 import plotly.graph_objects as go
+import plotly.express as px
 
 def graph(df):
-    portes = df.groupby('porte').size()
+    
+    # This dataframe has 244 lines, but 4 distinct values for `day`
+        
+    portes = df.groupby('porte').size().reset_index(name='quantidade')
 
-    natureza_juridica = df.groupby('natureza juridica').size()
+    # natureza_juridica = df.groupby('natureza juridica').size()
+
+    fig = px.pie(portes, values=portes['quantidade'], names=portes['porte'])
     
-    fig_natureza = go.Figure(
-        data=[go.Bar(x=df['natureza juridica'].unique(), y=natureza_juridica)],
-        )          
-    fig_natureza.update_layout(barmode='stack', title="Naturezas jurídicas")
+    fig.update_traces(hole=.5, hoverinfo="label+percent")
+    fig.update_layout(
+        title_text="Empresas por porte",
+        showlegend=False,
+        height=300,
+        margin=dict(b=50, r=20, l=20),
+        
+    )
     
-    fig = go.Figure(
-        data=[go.Bar(x=df['porte'].unique(), y=portes)],
-        )          
-    fig.update_layout(barmode='stack', title="Portes")
+    # fig_natureza = go.Figure(
+    #     data=[go.Bar(x=df['natureza juridica'].unique(), y=natureza_juridica)],
+    #     )          
+    # fig_natureza.update_layout(barmode='stack', title="Naturezas jurídicas")
     
-    return fig, fig_natureza
+    # fig = go.Figure(
+    #     data=[go.Bar(x=df['porte'].unique(), y=portes)],
+    #     )          
+    # fig.update_layout(barmode='stack', title="Portes")
+    
+    return fig

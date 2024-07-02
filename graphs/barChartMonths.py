@@ -30,6 +30,7 @@ def graph (df):
             bgcolor='rgba(255, 255, 255, 0)',
             bordercolor='rgba(255, 255, 255, 0)'
         ),
+        yaxis=dict(showgrid=False, visible=False),
         bargap=0.3, # gap between bars of adjacent location coordinates.
         bargroupgap=0.1 # gap between bars of the same location coordinate.
     )

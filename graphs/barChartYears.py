@@ -30,6 +30,8 @@ def graph (dados_combinados):
             bgcolor='rgba(255, 255, 255, 0)',
             bordercolor='rgba(255, 255, 255, 0)'
         ),
+        xaxis=dict(tickmode='linear'),  # Garante que todos os anos apareçam
+        yaxis=dict(showgrid=False, visible=False),
         bargap=0.3, # gap between bars of adjacent location coordinates.
         bargroupgap=0.1 # gap between bars of the same location coordinate.
     )
