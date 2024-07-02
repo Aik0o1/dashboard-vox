@@ -1,49 +1,35 @@
-# import plotly.express as px
-
-# def graph(df_margem):
-#     fig_margem = px.pie(df_margem, values='Quantidade', names='Tipo', hole=0.7)
-#     fig_margem.update_traces(textinfo='none'),
-
-#     fig_margem.update_layout(
-#         showlegend=False,
-#         margin=dict(t=0, b=0, l=0, r=0),
-#         height=100,
-#     )
-
-#     return fig_margem
-
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 
-def graph(df_margem):
-    labels = ["US", "China", "European Union", "Russian Federation", "Brazil", "India",
-            "Rest of World"]
+def graph(df):
+    # Agrupar por porte e calcular as quantidades
+    labels = df.groupby('porte').size().reset_index(name='quantidade')
 
-    # Create subplots: use 'domain' type for Pie subplot
-    fig = make_subplots(rows=1, cols=4, specs=[[{'type':'domain'}, {'type':'domain'},{'type':'domain'}, {'type':'domain'}]])
+    # Calcular a soma total de todas as quantidades
+    soma_total = labels['quantidade'].sum()
+
+    colors = ['#d8d8d8', '#8acbb5']
+
+    # Preparar valores dinamicamente
+    data = []
     
-    fig.add_trace(go.Pie(labels=labels, values=[15,16], name="GHG Emissions"),
-                1, 1)
-    fig.add_trace(go.Pie(labels=labels, values=[27, 11, 25, 8, 1, 3, 25], name="CO2 Emissions"),
-                1, 2)
-    fig.add_trace(go.Pie(labels=labels, values=[27, 11, 25, 8, 1, 3, 25], name="CO2 Emissions"),
-                1, 3)
-    fig.add_trace(go.Pie(labels=labels, values=[27, 11, 25, 8, 1, 3, 25], name="CO2 Emissions"),
-                1, 4)
+    for i, (porte, quantidade) in enumerate(labels[['porte', 'quantidade']].itertuples(index=False)):
+        labels_categoria = ['Total', porte.capitalize()]
+       
+        data.append(go.Pie(labels=labels_categoria, values=[soma_total, quantidade], name=porte.capitalize()))
+        
+    fig = make_subplots(rows=1, cols=len(labels), specs=[[{'type':'domain'}]*len(labels)],  subplot_titles=labels['porte'])
 
-    # Use `hole` to create a donut-like pie chart
-    fig.update_traces(hole=.4, hoverinfo="label+percent+name", textinfo='none')
+    for i, trace in enumerate(data):
+        fig.add_trace(trace, 1, i + 1)
 
+    fig.update_traces(hole=.7, hoverinfo="label+percent", marker=dict(colors=colors))
     fig.update_layout(
-        title_text="Global Emissions 1990-2011",
-                    showlegend=False,
-                    height=300,
-        # Add annotations in the center of the donut pies.
-        annotations=[dict(text='GHG', x=0.2, y=0.5, font_size=12, showarrow=False),
-                    dict(text='CO2', x=0.3, y=0.5, font_size=12, showarrow=False),
-                    dict(text='H2O', x=0.4, y=0.5, font_size=12, showarrow=False),
-                    dict(text='HB20', x=0.5, y=0.5, font_size=12, showarrow=False),
-                    
-                    ])
+        title_text="Empresas por porte",
+        showlegend=False,
+        height=300,
+        margin=dict(b=50, r=20, l=20),
+        
+    )
 
     return fig

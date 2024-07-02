@@ -51,8 +51,6 @@ def layout(df, total_positivo, total_negativo, margem, tabela_margem, merge_aber
         st.title("Tabela completa")
         st.dataframe(df)
     
-    with grafico_agrupado_porte:
-        st.plotly_chart(circles.graph(df), use_container_width=True)
             
             # with col5:
             #     st.plotly_chart(circles.graph(tabela_margem), use_container_width=True)
