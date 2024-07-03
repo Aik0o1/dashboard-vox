@@ -46,7 +46,8 @@ if atividade != "Todas":
 # Recebe dados tratados
 (total_aberturas, total_fechamentos, margem_abertura_fechamento, 
  df_margem_abertura_fechamento, merge_abertura_fechamento, 
- df_porte, df_natureza) = load_and_prepare_data(df_filtered)
+ df_porte, df_natureza, df_total_ativas, servico_mais_ativo, 
+ servico_menos_ativo) = load_and_prepare_data(df_filtered)
 
 
 # Ajustar o agrupamento e eixo_x com base na seleção do ano
@@ -74,4 +75,5 @@ with tab1:
     
 with tab2:
     titulo_bar1, titulo_bar2 = "porte", "natureza juridica"
-    secondTab.layout(df_filtered, ano, porte, municipio, atividade, titulo_bar1, titulo_bar2)
+    secondTab.layout(df_filtered, ano, porte, municipio, atividade, titulo_bar1, titulo_bar2,
+                     df_total_ativas, servico_mais_ativo, servico_menos_ativo)

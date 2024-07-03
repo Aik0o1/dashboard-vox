@@ -32,6 +32,19 @@ def load_and_prepare_data(df):
     df_porte = df.groupby('porte').size().reset_index(name='quantidade')
     df_natureza = df.groupby('natureza juridica').size().reset_index(name='quantidade')
 
+
+
+    #second tab dados
+    df_total_ativas = df.abertura.count()
+
+    df_atividades = df.groupby('atividade').size().reset_index(name='count')
+    servico_mais_ativo = df_atividades.sort_values(by='count', ascending=False)
+    servico_mais_ativo = servico_mais_ativo.iloc[0]['atividade']
+
+    servico_menos_ativo = df_atividades.sort_values(by='count', ascending=True)
+    servico_menos_ativo = servico_menos_ativo.iloc[0]['atividade']
+
     # filtro para grafico de natureza
     return (total_aberturas, total_fechamentos, margem_abertura_fechamento, 
-            df_margem_abertura_fechamento, merge_abertura_fechamento, df_porte, df_natureza)
+            df_margem_abertura_fechamento, merge_abertura_fechamento, df_porte, df_natureza,
+            df_total_ativas, servico_mais_ativo, servico_menos_ativo)
