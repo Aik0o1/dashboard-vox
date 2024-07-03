@@ -11,13 +11,13 @@ def graph (dados_combinados):
     fig_abertura_fechamento = go.Figure()
     fig_abertura_fechamento.add_trace(go.Bar(x=anos,
         y = aberturas,
-        marker = dict(color='#004f89'),  
+        marker = dict(color='#034EA2'),  
         name ='Aberturas',
         text = aberturas
     ))
     fig_abertura_fechamento.add_trace(go.Bar(x=anos,
         y = fechamentos,
-        marker=dict(color='#dfbf5c'), 
+        marker=dict(color='#FDC742'), 
         name='Fechamentos',
         text=fechamentos  
     ))

@@ -8,8 +8,7 @@ def layout(df, total_positivo, total_negativo, margem, tabela_margem, merge_aber
     grafico_abertura_fechamento_anual = st.area_chart()
     grafico_abertura_fechamento_mensal = st.area_chart()
     grafico_agrupado_porte, grafico_agrupado_natureza = st.columns(2)
-    bloco_mapa, tabela_abertura_fechamento = st.columns(2)
-    blocoTabela = st.columns(1)
+    bloco_mapa,  tabela_abertura_fechamento = st.columns(2)
     
     with bloco_total_positivo:
         st.metric(label='Total de aberturas', value=total_positivo)
@@ -26,15 +25,17 @@ def layout(df, total_positivo, total_negativo, margem, tabela_margem, merge_aber
 
 
     with grafico_abertura_fechamento_anual:
+        
         st.plotly_chart(barChartYears.graph(merge_abertura_fechamento))
         
     with grafico_abertura_fechamento_mensal:
         st.plotly_chart(barChartMonths.graph(df))
-    
 
     with bloco_mapa:
         st.header("Cidades Destaque")
         st.plotly_chart(mapHeat.plotMap(df))
+
+    
 
     with tabela_abertura_fechamento:
         tabela_abertura, tabela_fechamento = st.columns(2)
@@ -46,11 +47,6 @@ def layout(df, total_positivo, total_negativo, margem, tabela_margem, merge_aber
             st.header(" ")
             st.dataframe(plotTable.plotTableTab1(df, 'anoFechamento', 'Fechamentos'))
 
-
-    with blocoTabela[0]:
-        st.title("Tabela completa")
-        st.dataframe(df)
-    
             
             # with col5:
             #     st.plotly_chart(circles.graph(tabela_margem), use_container_width=True)

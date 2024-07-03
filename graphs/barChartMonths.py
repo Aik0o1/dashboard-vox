@@ -10,14 +10,14 @@ def graph (df):
     
     fig_aberturas_months.add_trace(go.Bar(x=meses,
         y = aberturas,
-        marker=dict(color='#004f89'), 
+        marker=dict(color='#034EA2'), 
         name='Aberturas',
         text=aberturas,
     ),)
     
     fig_aberturas_months.add_trace(go.Bar(x=meses,
         y = fechamentos,
-        marker=dict(color='#dfbf5c'),
+        marker=dict(color='#FDC742'),
         name='Fechamentos',
         text=fechamentos 
     ))
