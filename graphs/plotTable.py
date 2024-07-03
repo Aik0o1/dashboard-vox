@@ -1,7 +1,7 @@
 import pandas as pd
 
 
-def plotTableTab2(df):
+def plotTableTab1(df):
     # Agrupar por município, ano de abertura e ano de fechamento
     df_aberturas = (
         df.dropna(subset=["anoAbertura"])
@@ -37,3 +37,10 @@ def plotTableTab2(df):
     df_combined.sort_values(by=["municipio", "Ano"], inplace=True)
 
     return df_combined
+
+
+def plotTableTab2(df, metric):
+    df_grouped = df.groupby(["municipio", metric]).size().reset_index(name="Qtd")
+    df_sorted = df_grouped.sort_values(by="Qtd", ascending=False)
+
+    return df_sorted
