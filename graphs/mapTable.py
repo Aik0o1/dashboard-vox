@@ -5,7 +5,7 @@ import plotly.graph_objects as go
 def mapa_tbaela(df):
 
     mapa = mapHeat.plotMap(df)
-    tabela = plotTable.plotTableTab2(df)
+    tabela = plotTable.plotTableTab1(df)
 
     fig = make_subplots(
         rows=1,

@@ -33,14 +33,16 @@ def plotGraphBar(df, metric, title):
         data_sorted = data.sort_values(by=metric, ascending=False).head()
         fig = px.bar(
             data_sorted,
-            x=metric,
-            y="quantidade",
-            text="quantidade",
-            orientation="v",
+            x="quantidade",
+            y=metric,
+            orientation="h",
             title=f"Empresas por {title.lower()}",
+            height=350,
+            text='quantidade'
         )
-        fig.update_layout(yaxis=dict(showgrid=False, visible=False))
-        
+
+        fig.update_layout(yaxis=dict(showgrid=False))
+
         fig.update_traces(
             hoverinfo="none",
             textfont_size=16,
@@ -48,4 +50,5 @@ def plotGraphBar(df, metric, title):
             textposition="outside",
             cliponaxis=False,
         )
+
     return fig

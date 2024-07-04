@@ -2,7 +2,18 @@ import streamlit as st
 from graphs import mapHeat, pieMargin, circles, graphBar, treeMap, plotTable, stackedBar
 
 
-def layout(df, ano, porte, municipio, atividade, titulo_bar1, titulo_bar2):
+def layout(
+    df,
+    ano,
+    porte,
+    municipio,
+    atividade,
+    titulo_bar1,
+    titulo_bar2,
+    df_total_ativas,
+    servico_mais_ativo,
+    servico_menos_ativo,
+):
 
     bloco_total_ativas, bloco_cidade_mais_ativa, bloco_cidade_menos_ativa = st.columns(
         3
@@ -14,13 +25,13 @@ def layout(df, ano, porte, municipio, atividade, titulo_bar1, titulo_bar2):
     bloco_arvore = st.area_chart()
 
     with bloco_total_ativas:
-        st.metric(label="Total de ativas", value=10)
+        st.metric(label="Total de ativas", value=df_total_ativas)
 
     with bloco_cidade_mais_ativa:
-        st.metric(label="Atividade destaque", value="xxx")
+        st.metric(label="Atividade destaque", value=servico_mais_ativo)
 
     with bloco_cidade_menos_ativa:
-        st.metric(label="Atividade", value="yyy")
+        st.metric(label="Atividade", value=servico_menos_ativo)
 
     with grafico_agrupado_porte:
         st.plotly_chart(circles.graph(df), use_container_width=True)

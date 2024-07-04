@@ -33,7 +33,8 @@ def layout(
     grafico_abertura_fechamento_mensal = st.area_chart()
     bloco_mapa, tabela_abertura_fechamento = st.columns(2)
     grafico_agrupado_porte, grafico_agrupado_natureza = st.columns(2)
-    # grafico_arvore = st.area_chart()
+    # grafico_mapa = st.area_chart()
+    # grafico_mapa, grafico_tabela = st.columns([1,1])
 
     with bloco_total_positivo:
         st.metric(label="Total de aberturas", value=total_positivo)
@@ -59,21 +60,18 @@ def layout(
         st.plotly_chart(mapHeat.plotMap(df))
 
     with tabela_abertura_fechamento:
-        st.header("")
-        st.write(plotTable.plotTableTab1(df), use_container_width=True)
+        tabela_abertura, tabela_fechamento = st.columns(2)
+        with tabela_abertura:
+            st.header(" ")
+            st.dataframe(plotTable.plotTableTab1(df, 'anoAbertura', 'Aberturas'))
+        
+        with tabela_fechamento:
+            st.header(" ")
+            st.dataframe(plotTable.plotTableTab1(df, 'anoFechamento', 'Fechamentos'))
 
     with grafico_agrupado_porte:
-        st.plotly_chart(circles.graph(df), use_container_width=True)
+        st.plotly_chart(circles.graph(df))
 
     with grafico_agrupado_natureza:
         st.plotly_chart(stackedBar.graph(df))
 
-
-    # with grafico_arvore:
-    #     # col1, col2 = st.columns(2)
-    #     # with st.container():
-    #     #     with col1:
-    #     #         st.plotly_chart(mapHeat.plotMap(df))
-    #     #     with col2:
-    #     #         st.write(plotTable.plotTableTab2(df))
-    #     st.plotly_chart(mapTable.mapa_tbaela(df))
