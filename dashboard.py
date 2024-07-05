@@ -3,8 +3,10 @@ from components import firstTab, secondTab
 from main import load_and_prepare_data
 import pandas as pd
 
+# tratamento dos dados recebidos em xlsx
 
-df_real = pd.read_excel("assets/fed9e65c-3666-49c9-aa95-90ab037802ab.xlsx")
+df_real = pd.read_excel("assets/MOCK_DATA.xlsx")
+# df_real = pd.read_excel("assets/fed9e65c-3666-49c9-aa95-90ab037802ab.xlsx")
 
 df_real.rename(
         columns={
@@ -14,23 +16,20 @@ df_real.rename(
         }, inplace=True
     )
 
-df_real['Data Autenticação'] = df_real['Data Autenticação'].replace('-', None)
-df_real['Data Autenticação'] = pd.to_datetime(df_real['Data Autenticação'], format='%d/%m/%Y %H:%M:%S', errors='coerce')
-# print(type(df_real["Data Autenticação"]))
+# df_real['Data Autenticação'] = df_real['Data Autenticação'].replace('-', None)
+# df_real['Data Autenticação'] = pd.to_datetime(df_real['Data Autenticação'], format='%d/%m/%Y', errors='coerce')
 
+df_real['Data Autenticação'] = pd.to_datetime(df_real['Data Autenticação'])
 df_real["abertura"] = df_real["Data Autenticação"].where(df_real["Tipo Evento"] == "INSCRIÇÃO DE EMPRESA")
-
 df_real["fechamento"] = df_real["Data Autenticação"].where(df_real["Tipo Evento"] == "PEDIDO DE BAIXA")
-
-
 df = df_real.sort_values(by="municipio")
 df["anoAbertura"] = df_real["abertura"].dt.year
 df["mesAbertura"] = df_real["abertura"].dt.month
 df["anoFechamento"] = df_real["fechamento"].dt.year
 df["mesFechamento"] = df_real["fechamento"].dt.month
+anos = sorted(df_real['Data Autenticação'].dt.year.dropna().unique())
 
-# df['Porte']
-
+# configurações da página
 st.set_page_config(layout='wide')
 st.title("Informações Empresariais")
 
@@ -38,9 +37,7 @@ st.title("Informações Empresariais")
 tab1, tab2 = st.tabs(["Aberturas e Fechamentos", "Atividade e Inatividade"])
 
 # Sidebar
-ano = st.sidebar.selectbox("Ano", ["Todos"] + list(range(2023, 2024)))
-
-
+ano = st.sidebar.selectbox("Ano", ["Todos"] + anos)
 municipio = st.sidebar.selectbox(
     "Município", ["Todos"] + list(df["municipio"].unique())
 )
@@ -49,13 +46,11 @@ atividade = st.sidebar.selectbox(
     "Atividade", ["Todas"] + list(df["Atividade"].unique())
 )
 
-# df_filtered = df.copy()
+# aplicação de filtros
 df_real_filtered = df.copy()
 
 if ano != "Todos":
     df_real_filtered = df_real_filtered[df_real_filtered["abertura"].dt.year == ano]
-
-
 if municipio != "Todos":
     df_real_filtered = df_real_filtered[
         df_real_filtered["municipio"] == municipio
@@ -66,8 +61,7 @@ if porte != "Todos":
 if atividade != "Todas":
     df_real_filtered = df_real_filtered[df_real_filtered["Atividade"] == atividade]
 
-# Recebe dados tratados
-# Recebe dados tratados
+# recebe dados tratados
 (
     total_aberturas,
     total_fechamentos,

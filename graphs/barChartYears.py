@@ -3,7 +3,9 @@ import plotly.graph_objects as go
 
 def graph(dados_combinados):
 
-    anos = list(range(2023, 2024))
+    anos = list(range(2000, 2025))
+    # anos = list(range(2023, 2024))
+    
     aberturas = dados_combinados["aberturas"]
     fechamentos = dados_combinados["fechamentos"]
 
