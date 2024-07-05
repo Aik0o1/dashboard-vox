@@ -47,6 +47,7 @@ def layout(
             st.metric(label="Margem", value=margem)
         with col2:
             st.plotly_chart(pieMargin.graph(tabela_margem), use_container_width=True)
+            #st.plotly_chart(pieMargin.graph(tabela_margem, margem), use_container_width=True)
 
     with grafico_abertura_fechamento_anual:
         st.plotly_chart(barChartYears.graph(merge_abertura_fechamento))
@@ -61,11 +62,11 @@ def layout(
         tabela_abertura, tabela_fechamento = st.columns(2)
         with tabela_abertura:
             st.subheader(" ")
-            st.dataframe(plotTable.plotTableTab1(df, "anoAbertura", "Aberturas"))
+            st.dataframe(plotTable.plotTableTab1(df, "anoAbertura", "Aberturas"), use_container_width=True)
 
         with tabela_fechamento:
             st.subheader(" ")
-            st.dataframe(plotTable.plotTableTab1(df, "anoFechamento", "Fechamentos"))
+            st.dataframe(plotTable.plotTableTab1(df, "anoFechamento", "Fechamentos"), use_container_width=True)
 
     with grafico_portes_individuais:
         st.plotly_chart(circles.graph(df))

@@ -25,8 +25,8 @@ def break_text(text, max_length):
 
 
 def plotMapTree(df):
-    dfAtividadeQtd = df.groupby("atividade").size().reset_index(name="Qtd Empresa")
-    dfAtividadeQtd["atividade"] = dfAtividadeQtd["atividade"].apply(
+    dfAtividadeQtd = df.groupby("Atividade").size().reset_index(name="Qtd Empresa")
+    dfAtividadeQtd["atividade"] = dfAtividadeQtd["Atividade"].apply(
         lambda x: break_text(x, 20)
     )
 

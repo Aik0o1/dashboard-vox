@@ -28,10 +28,10 @@ def layout(
         st.metric(label="Total de ativas", value=df_total_ativas)
 
     with bloco_cidade_mais_ativa:
-        st.metric(label="Atividade destaque", value=servico_mais_ativo)
+        st.metric(label="Atividade com mais ativas", value=servico_mais_ativo)
 
     with bloco_cidade_menos_ativa:
-        st.metric(label="Atividade", value=servico_menos_ativo)
+        st.metric(label="Atividade com menos ativas", value=servico_menos_ativo)
 
     with grafico_agrupado_porte:
         st.plotly_chart(circles.graph(df), use_container_width=True)

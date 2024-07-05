@@ -36,6 +36,8 @@ def graph(df):
 
     for i, trace in enumerate(data):
         fig.add_trace(trace, 1, i + 1)
+        fig.layout.annotations[i].update(y=1.07)  # Ajuste o valor de y conforme necessário
+
 
     fig.update_traces(
         hole=0.7,
