@@ -36,15 +36,23 @@ if atividade != "Todas":
     df_filtered = df_filtered[df_filtered["atividade"] == atividade]
 
 # Recebe dados tratados
+# Recebe dados tratados
 (total_aberturas, total_fechamentos, margem_abertura_fechamento, 
  df_margem_abertura_fechamento, merge_abertura_fechamento, 
- df_porte, df_natureza) = load_and_prepare_data(df_filtered)
+ df_porte, df_natureza, df_total_ativas, servico_mais_ativo, 
+ servico_menos_ativo) = load_and_prepare_data(df_filtered)
 
 #construindo a pagina
 with tab1:
     titulo_positivo, titulo_negativo = "aberturas", "fechamentos"
-    firstTab.layout(df_filtered, total_aberturas, total_fechamentos, margem_abertura_fechamento, df_margem_abertura_fechamento, merge_abertura_fechamento, titulo_positivo, titulo_negativo, ano, porte, municipio, atividade)
+    firstTab.layout(df_filtered, total_aberturas, total_fechamentos, margem_abertura_fechamento, df_margem_abertura_fechamento, merge_abertura_fechamento)
     
 with tab2:
     titulo_bar1, titulo_bar2 = "porte", "natureza juridica"
-    secondTab.layout(df_filtered, ano, porte, municipio, atividade, titulo_bar1, titulo_bar2)
+    secondTab.layout(df_filtered, ano, porte, municipio, atividade, titulo_bar1, titulo_bar2, df_total_ativas, servico_mais_ativo, servico_menos_ativo)
+
+footer_html = """<hr/><div style='text-align: right; color: #d9dbdb '>
+  <p>Developed with Python, Pandas and Streamlit</p>
+</div>"""
+
+st.markdown(footer_html, unsafe_allow_html=True)

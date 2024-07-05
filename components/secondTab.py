@@ -1,5 +1,5 @@
 import streamlit as st
-from graphs import mapHeat, pieMargin, circles, graphBar, treeMap, plotTable, stackedBar
+from graphs import mapHeat, circles, graphBar, treeMap, plotTable
 
 
 def layout(
@@ -40,7 +40,7 @@ def layout(
         tabela_porte = st.columns(1)
         tabela_natureza = st.columns(1)
         with tabela_porte[0]:
-            # st.header(" ")
+            st.subheader(" ")
             # st.markdown('''######Tabela''')
             st.dataframe(plotTable.plotTableTab2(df, "porte"), height=200, width=500)
 

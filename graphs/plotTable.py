@@ -5,7 +5,7 @@ def plotTableTab1(df, metric, title):
     df_metric = df.dropna(subset=[metric]).groupby('municipio').size().reset_index(name=title)
 
     df_metric = df_metric[['municipio', title]]
-    print(df_metric)
+    # print(df_metric)
     df_sorted = df_metric.sort_values(by=title, ascending=False)
     
     # df_fechamento = df[['municipio', metric]]

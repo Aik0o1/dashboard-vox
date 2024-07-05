@@ -9,7 +9,7 @@ def graph(df):
     # Calcular a soma total de todas as quantidades
     soma_total = labels["quantidade"].sum()
 
-    colors = ["#d8d8d8", "#8acbb5"]
+    colors = ["#d8d8d8", "#034EA2"]
 
     # Preparar valores dinamicamente
     data = []

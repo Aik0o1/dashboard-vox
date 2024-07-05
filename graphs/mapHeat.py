@@ -52,7 +52,7 @@ def plotMap(df, coluna_criterio="aberturas"):
     # Atualizar layout do mapa
     figMapa.update_geos(fitbounds="locations", visible=False)
     figMapa.update_layout(
-        title_text="Empresas por município",
+        title_text="Empresas por município (abertura x fechamento)",
         margin={"r": 0, "t": 100, "l": 0, "b": 0},
         dragmode=False,
     )
