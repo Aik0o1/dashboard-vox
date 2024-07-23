@@ -1,6 +1,7 @@
 import streamlit as st
 from components import firstTab, secondTab
 from main import load_and_prepare_data
+from layout import header, font, logo, sidebar
 import pandas as pd
 
 # tratamento dos dados recebidos em xlsx
@@ -31,45 +32,18 @@ anos = sorted(df_real['Data Autenticação'].dt.year.dropna().unique())
 
 # configurações da página
 st.set_page_config(layout='wide')
+header.header()
 st.title("Informações Empresariais")
 
+st.markdown('<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">',unsafe_allow_html=True)
 # definindo fonte
-st.markdown(
-    """
-            <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital@0;1&display=swap" rel="stylesheet">
-            <style>
-            * {
-                font-family: "Montserrat", sans-serif;
-            }
-            img[data-testid="stLogo"] {
-            height: 25rem;
-            width: 22rem
-}</style>""",
-    unsafe_allow_html=True,
-)
+font.font()
 
 # Definindo logo
-st.logo(image='assets/logo3.png', icon_image='assets/logo.png')
-st.markdown('''<style>
-            img[data-testid="stLogo"] {
-            height: 4rem;
-}</style>''', unsafe_allow_html=True)
-
+logo.logo()
 
 # personalizando a sidebar
-st.markdown("""
-<style>
-    [data-testid=stSidebar] {
-        background-color: #034ea2;
-    }
-    
-    .st-emotion-cache-ue6h4q {
-                color: white
-            }
-</style>
-""", unsafe_allow_html=True)
+sidebar.sidebar()
 
 
 # Cria abas
@@ -145,8 +119,11 @@ with tab2:
         servico_menos_ativo,
     )
 
-footer_html = """<hr/><div style='text-align: right; color: #d9dbdb '>
-  <p>Developed with Python, Pandas and Streamlit</p>
-</div>"""
+# footer_html = """<hr/><div style='text-align: right; color: #d9dbdb '>
+#   <p>Developed with Python, Pandas and Streamlit</p>
+# </div>"""
 
-st.markdown(footer_html, unsafe_allow_html=True)
+# st.markdown(footer_html, unsafe_allow_html=True)
+
+
+
