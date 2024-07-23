@@ -46,7 +46,7 @@ def plotMap(df, coluna_criterio="aberturas"):
         color="aberturas",
         hover_name="name",
         projection="mercator",
-        color_continuous_scale="Blues",
+        color_continuous_scale="blues",
     )
 
     # Atualizar layout do mapa

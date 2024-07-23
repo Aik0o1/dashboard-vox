@@ -22,7 +22,7 @@ def plotGraphBar(df, metric, title):
             orientation="h",
             title=f"{title.capitalize()}",
             height=250,
-            color_discrete_sequence=["#034EA2"],
+            color_discrete_sequence=["#034ea2"],
         )
 
     elif metric == "porte" or metric == "natureza juridica":

@@ -23,7 +23,7 @@ def graph(dados_combinados):
         go.Bar(
             x=anos,
             y=fechamentos,
-            marker=dict(color="#dfbf5c"),
+            marker=dict(color="#fdb913"),
             name="Fechamentos",
             text=fechamentos,
         )

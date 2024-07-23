@@ -1,5 +1,5 @@
 import streamlit as st
-from graphs import mapHeat, circles, graphBar, treeMap, plotTable
+from graphs import mapHeat, circles, graphBar, treeMap, plotTable, stackedBar
 
 
 def layout(
@@ -36,7 +36,7 @@ def layout(
         st.metric(label="Atividade com menos ativas", value=servico_menos_ativo)
 
     with grafico_agrupado_porte:
-        st.plotly_chart(circles.graph(df), use_container_width=True)
+        st.plotly_chart(stackedBar.graph(df), use_container_width=True)
 
     with tabela_porte_natureza:
         tabela_porte = st.columns(1)

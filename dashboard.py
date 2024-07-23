@@ -33,7 +33,46 @@ anos = sorted(df_real['Data Autenticação'].dt.year.dropna().unique())
 st.set_page_config(layout='wide')
 st.title("Informações Empresariais")
 
-# Criar abas
+# definindo fonte
+st.markdown(
+    """
+            <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital@0;1&display=swap" rel="stylesheet">
+            <style>
+            * {
+                font-family: "Montserrat", sans-serif;
+            }
+            img[data-testid="stLogo"] {
+            height: 25rem;
+            width: 22rem
+}</style>""",
+    unsafe_allow_html=True,
+)
+
+# Definindo logo
+st.logo(image='assets/logo3.png', icon_image='assets/logo.png')
+st.markdown('''<style>
+            img[data-testid="stLogo"] {
+            height: 4rem;
+}</style>''', unsafe_allow_html=True)
+
+
+# personalizando a sidebar
+st.markdown("""
+<style>
+    [data-testid=stSidebar] {
+        background-color: #034ea2;
+    }
+    
+    .st-emotion-cache-ue6h4q {
+                color: white
+            }
+</style>
+""", unsafe_allow_html=True)
+
+
+# Cria abas
 tab1, tab2 = st.tabs(["Aberturas e Fechamentos", "Empresas Ativas"])
 
 # Sidebar
