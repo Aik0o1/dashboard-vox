@@ -7,7 +7,7 @@ def graph(df_margem):
         values="Quantidade",
         names="Tipo",
         hole=0.6,
-        color_discrete_sequence=["#034EA2", "#d8d8d8"],
+        color_discrete_sequence=["#034ea2", "#d8d8d8"],
     )
 
     # Gráfico de pizza sem legenda

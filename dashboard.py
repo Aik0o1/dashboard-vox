@@ -1,6 +1,7 @@
 import streamlit as st
 from components import firstTab, secondTab
 from main import load_and_prepare_data
+from layout import footer, header, font, logo, sidebar
 import pandas as pd
 
 # tratamento dos dados recebidos em xlsx
@@ -31,10 +32,22 @@ anos = sorted(df_real['Data Autenticação'].dt.year.dropna().unique())
 
 # configurações da página
 st.set_page_config(layout='wide')
+header.header()
 st.title("Informações Empresariais")
 
-# Criar abas
-tab1, tab2 = st.tabs(["Aberturas e Fechamentos", "Atividade e Inatividade"])
+st.markdown('<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">',unsafe_allow_html=True)
+# definindo fonte
+font.font()
+
+# Definindo logo
+logo.logo()
+
+# personalizando a sidebar
+sidebar.sidebar()
+
+
+# Cria abas
+tab1, tab2 = st.tabs(["Aberturas e Fechamentos", "Empresas Ativas"])
 
 # Sidebar
 ano = st.sidebar.selectbox("Ano", ["Todos"] + anos)
@@ -50,7 +63,10 @@ atividade = st.sidebar.selectbox(
 df_real_filtered = df.copy()
 
 if ano != "Todos":
-    df_real_filtered = df_real_filtered[df_real_filtered["abertura"].dt.year == ano]
+    df_real_filtered = df_real_filtered[
+        (df_real_filtered["anoAbertura"] == ano) | 
+        (df_real_filtered["anoFechamento"] == ano)]
+    
 if municipio != "Todos":
     df_real_filtered = df_real_filtered[
         df_real_filtered["municipio"] == municipio
@@ -61,6 +77,7 @@ if porte != "Todos":
 if atividade != "Todas":
     df_real_filtered = df_real_filtered[df_real_filtered["Atividade"] == atividade]
 
+print(df_real_filtered.head(100))
 # recebe dados tratados
 (
     total_aberturas,
@@ -102,8 +119,10 @@ with tab2:
         servico_menos_ativo,
     )
 
-footer_html = """<hr/><div style='text-align: right; color: #d9dbdb '>
-  <p>Developed with Python, Pandas and Streamlit</p>
-</div>"""
+# footer_html = """<hr/><div style='text-align: right; color: #d9dbdb '>
+#   <p>Developed with Python, Pandas and Streamlit</p>
+# </div>"""
 
-st.markdown(footer_html, unsafe_allow_html=True)
+# st.markdown(footer_html, unsafe_allow_html=True)
+
+footer.footer()

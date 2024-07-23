@@ -35,10 +35,12 @@ def plotMapTree(df):
         path=[px.Constant("Atividades"), "atividade"],
         values="Qtd Empresa",
         title="Empresas por Atividade",
+        height=600
+        
     )
     fig.update_traces(
         root_color="lightgrey",
-        textfont_size=12,
+        textfont_size=16,
         hovertemplate="<b>%{label} </b> <br> Quantidade: %{value}<br>",
     )
     fig.update_layout(margin=dict(t=50, l=25, r=25, b=25))

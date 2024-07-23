@@ -46,14 +46,14 @@ def plotMap(df, coluna_criterio="aberturas"):
         color="aberturas",
         hover_name="name",
         projection="mercator",
-        color_continuous_scale="Blues",
+        color_continuous_scale="blues",
     )
 
     # Atualizar layout do mapa
     figMapa.update_geos(fitbounds="locations", visible=False)
     figMapa.update_layout(
-        title_text="Empresas por município (abertura x fechamento)",
-        margin={"r": 0, "t": 100, "l": 0, "b": 0},
+        # title_text="Empresas abertas por município",
+        margin={"r": 0, "t": 0, "l": 0, "b": 0},
         dragmode=False,
     )
 

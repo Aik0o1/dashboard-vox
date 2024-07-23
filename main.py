@@ -41,8 +41,8 @@ def load_and_prepare_data(df):
 
     # second tab dados
     df_total_ativas = df.abertura.count()
-
-    df_atividades = df.groupby("Atividade").size().reset_index(name="count")
+    df_atividades = df.where(df['Tipo Evento']=='INSCRIÇÃO DE EMPRESA')
+    df_atividades = df_atividades.groupby("Atividade").size().reset_index(name="count")
     servico_mais_ativo = df_atividades.sort_values(by="count", ascending=False)
     servico_mais_ativo = servico_mais_ativo.iloc[0]["Atividade"]
 

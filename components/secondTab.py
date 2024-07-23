@@ -1,5 +1,5 @@
 import streamlit as st
-from graphs import mapHeat, circles, graphBar, treeMap, plotTable
+from graphs import mapHeat, circles, graphBar, treeMap, plotTable, stackedBar
 
 
 def layout(
@@ -14,11 +14,14 @@ def layout(
     servico_mais_ativo,
     servico_menos_ativo,
 ):
+    #pegando somente empresas que estão ativas
+    df = df.where(df['Tipo Evento']=='INSCRIÇÃO DE EMPRESA')
 
-    bloco_total_ativas, bloco_cidade_mais_ativa, bloco_cidade_menos_ativa = st.columns(
-        3
-    )
-    # grafico_agrupado_porte, empty_col, grafico_agrupado_natureza = st.columns([1,0.1,1])
+    bloco_total_ativas, bloco_cidade_mais_ativa, bloco_cidade_menos_ativa = st.columns(3)
+    bloco_total_ativas = bloco_total_ativas.container(border=True)
+    bloco_cidade_mais_ativa = bloco_cidade_mais_ativa.container(border=True)
+    bloco_cidade_menos_ativa = bloco_cidade_menos_ativa.container(border=True)
+
     grafico_agrupado_porte = st.area_chart()
     grafico_agrupado_natureza = st.area_chart()
     bloco_mapa, tabela_porte_natureza = st.columns(2)
@@ -34,7 +37,7 @@ def layout(
         st.metric(label="Atividade com menos ativas", value=servico_menos_ativo)
 
     with grafico_agrupado_porte:
-        st.plotly_chart(circles.graph(df), use_container_width=True)
+        st.plotly_chart(stackedBar.graph(df), use_container_width=True)
 
     with tabela_porte_natureza:
         tabela_porte = st.columns(1)
@@ -50,6 +53,8 @@ def layout(
             )
 
     with bloco_mapa:
+        st.markdown('**Empresas Ativas**')
+
         st.plotly_chart(mapHeat.plotMap(df))
 
     with grafico_agrupado_natureza:

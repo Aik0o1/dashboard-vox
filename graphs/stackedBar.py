@@ -10,7 +10,11 @@ def graph(df):
 
     # natureza_juridica = df.groupby('natureza juridica').size()
 
-    fig = px.pie(portes, values=portes["quantidade"], names=portes["porte"])
+    fig = px.pie(portes, values=portes["quantidade"], 
+        names=portes["porte"],
+        # color_discrete_sequence=["#034ea2", "#d8d8d8", "#ef4123" ],
+        color_discrete_sequence=["#034ea2", "#d8d8d8", "#fdb913" ],
+)
 
     fig.update_traces(hole=0.5, hoverinfo="label+percent")
     fig.update_layout(
