@@ -42,16 +42,17 @@ def layout(
 
     with bloco_total_positivo:
         st.metric(label="Total de aberturas", value=total_positivo)
+        st.write(" ")
 
     with blocoTotalFechamentos:
         st.metric(label="Total de Fechamentos", value=total_negativo)
+        st.write(" ")
 
     with blocoMargem:
-        col1, col2 = st.columns(2)
-        with col1:
-            st.metric(label="Margem", value=margem)
-        with col2:
-            st.plotly_chart(pieMargin.graph(tabela_margem), use_container_width=True)
+            st.metric(label="Margem", value=margem, delta=str(f"{((margem / total_positivo) * 100):.0f}%"))
+        # with col2:
+        #     st.plotly_chart(pieMargin.graph(tabela_margem), use_container_width=True)
+            #st.plotly_chart(pieMargin.graph(tabela_margem, margem), use_container_width=True)
 
     with grafico_abertura_fechamento_anual:
         st.plotly_chart(barChartYears.graph(merge_abertura_fechamento))
