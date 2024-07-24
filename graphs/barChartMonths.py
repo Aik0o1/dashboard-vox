@@ -44,8 +44,8 @@ def graph(df):
     fig_aberturas_months.update_layout(
         title="Aberturas x Fechamentos (por mês)",
         legend=dict(
-            x=1.0,
-            y=1.0,
+            x=1,
+            y=1,
             bgcolor="rgba(255, 255, 255, 0)",
             bordercolor="rgba(255, 255, 255, 0)",
         ),

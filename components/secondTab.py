@@ -43,17 +43,18 @@ def layout(
         tabela_porte = st.columns(1)
         tabela_natureza = st.columns(1)
         with tabela_porte[0]:
-            st.subheader(" ")
-            # st.markdown('''######Tabela''')
-            st.dataframe(plotTable.plotTableTab2(df, "porte"), height=200, width=500)
+            # st.subheader(" ")
+            st.markdown('''**Aberturas por porte**''')
+            st.dataframe(plotTable.plotTableTab2(df, "porte"), height=200, width=500, hide_index=True)
 
         with tabela_natureza[0]:
+            st.markdown('''**Aberturas por natureza**''')
             st.dataframe(
                 plotTable.plotTableTab2(df, "natureza juridica"), height=200, width=500
-            )
+            , hide_index=True)
 
     with bloco_mapa:
-        st.markdown('**Empresas Ativas**')
+        st.markdown('**Mapa de calor - Empresas Ativas**')
 
         st.plotly_chart(mapHeat.plotMap(df))
 

@@ -10,7 +10,11 @@ def sidebar():
     
     .st-emotion-cache-ue6h4q {
                 color: white
-            }
+            }   
+    [data-testid="stNotificationContentInfo"] {
+                color: white;
+
+    }
 </style>
 """, unsafe_allow_html=True)
     )

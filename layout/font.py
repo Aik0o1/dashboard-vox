@@ -18,6 +18,7 @@ def font():
 h1, .title {
     font-weight: 800;
 }
+</style>
 </style>""",
     unsafe_allow_html=True,
 )

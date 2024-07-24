@@ -80,7 +80,7 @@ if porte != "Todos":
 if atividade != "Todas":
     df_real_filtered = df_real_filtered[df_real_filtered["Atividade"] == atividade]
 
-print(df_real_filtered.head(100))
+# print(df_real_filtered.head(100))
 # recebe dados tratados
 (
     total_aberturas,

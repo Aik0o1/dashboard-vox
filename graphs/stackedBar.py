@@ -13,7 +13,7 @@ def graph(df):
     fig = px.pie(portes, values=portes["quantidade"], 
         names=portes["porte"],
         # color_discrete_sequence=["#034ea2", "#d8d8d8", "#ef4123" ],
-        color_discrete_sequence=["#034ea2", "#d8d8d8", "#fdb913" ],
+        color_discrete_sequence=["#034ea2", "#007932", "#ef4123"],
 )
 
     fig.update_traces(hole=0.5, hoverinfo="label+percent")
@@ -25,7 +25,6 @@ def graph(df):
     )
 
     fig.update_traces(
-        textfont_size=16,
         textinfo="label+percent",
         textposition="outside",
         hovertemplate="<b>%{label} </b> <br> Quantidade: %{value}<br>",
