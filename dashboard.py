@@ -36,8 +36,8 @@ st.set_page_config(layout='wide')
 # Rest of your code
 header.header()
 st.title("Informações Empresariais")
-st.sidebar.title("Filtros")
-st.sidebar.info("Aqui tem futuro. Aqui tem trabalho.")
+# st.sidebar.title("Filtros")
+st.sidebar.info("Filtros")
 st.markdown('<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">',unsafe_allow_html=True)
 # definindo fonte
 font.font()
