@@ -5,14 +5,12 @@ from graphs import (
     mapHeat,
     pieMargin,
     stackedBar,
-    circles,
-    plotTable,
     graphBar,
     treeMap,
+    plotTable
 )
 
-# from graphs import mapHeat, pieMargin, lineChart, graphBar, plotTable,stackedBar, barChartYears, barChartMonths
-
+from relatorio import gerar_relatorio_word
 
 def layout(
     df,
@@ -22,15 +20,16 @@ def layout(
     tabela_margem,
     merge_abertura_fechamento,
 ):
-
     bloco_total_positivo, blocoTotalFechamentos, blocoMargem = st.columns(3)
-
+    
+    bloco_total_positivo = bloco_total_positivo.container()
+    blocoTotalFechamentos = blocoTotalFechamentos.container()
+    blocoMargem = blocoMargem.container()
+    
     grafico_abertura_fechamento_anual = st.area_chart()
     grafico_abertura_fechamento_mensal = st.area_chart()
 
     bloco_mapa, tabela_abertura_fechamento = st.columns(2)
-
-    # grafico_portes_individuais, grafico_porte_unificado = st.tabs(['Empresas por porte (visão individualizada)', 'Empresas por porte (visão unificada)'])
     
     grafico_natureza_juridica = st.area_chart()
     grafico_porte_unificado = st.area_chart()
@@ -47,36 +46,67 @@ def layout(
         with col1:
             st.metric(label="Margem", value=margem)
         with col2:
-            st.plotly_chart(pieMargin.graph(tabela_margem), use_container_width=True)
-            #st.plotly_chart(pieMargin.graph(tabela_margem, margem), use_container_width=True)
+            grafico_margem = pieMargin.graph(tabela_margem)
+            st.plotly_chart(grafico_margem, use_container_width=True)
 
     with grafico_abertura_fechamento_anual:
-        st.plotly_chart(barChartYears.graph(merge_abertura_fechamento))
+        grafico_ano = barChartYears.graph(merge_abertura_fechamento)
+        st.plotly_chart(grafico_ano)
 
     with grafico_abertura_fechamento_mensal:
-        st.plotly_chart(barChartMonths.graph(df))
+        grafico_mes = barChartMonths.graph(df)
+        st.plotly_chart(grafico_mes)
 
     with bloco_mapa:
-        st.markdown('**Empresas por município (abertas + fechadas)**')
-        st.plotly_chart(mapHeat.plotMap(df))
+        st.markdown('**Mapa de calor - Aberturas**')
+        grafico_mapa = mapHeat.plotMap(df)
+        st.plotly_chart(grafico_mapa)
 
     with tabela_abertura_fechamento:
         tabela_abertura, tabela_fechamento = st.columns(2)
         with tabela_abertura:
-            st.subheader(" ")
-            st.dataframe(plotTable.plotTableTab1(df, "anoAbertura", "Aberturas"), use_container_width=True)
+            st.markdown("**Aberturas por município**")
+            st.dataframe(plotTable.plotTableTab1(df, "anoAbertura", "Aberturas"), use_container_width=True, hide_index=True)
 
         with tabela_fechamento:
-            st.subheader(" ")
-            st.dataframe(plotTable.plotTableTab1(df, "anoFechamento", "Fechamentos"), use_container_width=True)
+            st.markdown("**Fechamentos por município**")
+            st.dataframe(plotTable.plotTableTab1(df, "anoFechamento", "Fechamentos"), use_container_width=True, hide_index=True)
 
     with grafico_porte_unificado:
-        st.plotly_chart(stackedBar.graph(df))
+        grafico_porte = stackedBar.graph(df)
+        st.plotly_chart(grafico_porte)
 
     with grafico_natureza_juridica:
-        st.plotly_chart(
-            graphBar.plotGraphBar(df, "natureza juridica", "Natureza Jurídica")
-        )
+        grafico_natureza = graphBar.plotGraphBar(df, "natureza juridica", "Natureza Jurídica")
+        st.plotly_chart(grafico_natureza)
 
     with bloco_arvore:
-        st.plotly_chart(treeMap.plotMapTree(df), use_container_width=True)
+        grafico_arvore = treeMap.plotMapTree(df)
+        st.plotly_chart(grafico_arvore, use_container_width=True)
+
+    # Lista de gráficos e nomes para o relatório
+    graficos = [
+        grafico_margem, 
+        grafico_ano, 
+        grafico_mes, 
+        grafico_mapa, 
+        grafico_porte, 
+        grafico_natureza, 
+        grafico_arvore
+    ]
+    
+    nomes_arquivos = [
+        "grafico_margem", 
+        "grafico_ano", 
+        "grafico_mes", 
+        "grafico_mapa", 
+        "grafico_porte", 
+        "grafico_natureza", 
+        "grafico_arvore"
+    ]
+
+    # Botão para gerar o relatório
+    if st.button('Gerar Relatório'):
+        gerar_relatorio_word(graficos, nomes_arquivos, "relatorio")
+        st.success('Relatório gerado com sucesso!')
+
