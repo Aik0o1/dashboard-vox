@@ -4,6 +4,14 @@ from main import load_and_prepare_data
 from layout import header, font, logo, sidebar
 import pandas as pd
 
+
+import streamlit_authenticator as stauth
+import yaml
+from yaml.loader import SafeLoader
+
+
+
+
 # tratamento dos dados recebidos em xlsx
 
 df_real = pd.read_excel("assets/MOCK_DATA.xlsx")
@@ -94,38 +102,103 @@ print(df_real_filtered.head(100))
     servico_menos_ativo,
 ) = load_and_prepare_data(df_real_filtered)
 
-# construindo a pagina
-with tab1:
-    titulo_positivo, titulo_negativo = "aberturas", "fechamentos"
-    firstTab.layout(
-        df_real_filtered,
-        total_aberturas,
-        total_fechamentos,
-        margem_abertura_fechamento,
-        df_margem_abertura_fechamento,
-        merge_abertura_fechamento,
+
+def loginPage():
+    # Carrega a configuração de autenticação
+    with open('./config/config.yaml') as file:
+        config = yaml.load(file, Loader=SafeLoader)
+
+    # Inicializa o autenticador
+    authenticator = stauth.Authenticate(
+        config['credentials'],
+        config['cookie']['name'],
+        config['cookie']['key'],
+        config['cookie']['expiry_days'],
     )
 
-with tab2:
-    titulo_bar1, titulo_bar2 = "porte", "natureza juridica"
-    secondTab.layout(
-        df_real_filtered,
-        ano,
-        porte,
-        municipio,
-        atividade,
-        titulo_bar1,
-        titulo_bar2,
-        df_total_ativas,
-        servico_mais_ativo,
-        servico_menos_ativo,
-    )
+    # Exibe o formulário de login
+    authenticator.login('main')
 
-# footer_html = """<hr/><div style='text-align: right; color: #d9dbdb '>
-#   <p>Developed with Python, Pandas and Streamlit</p>
-# </div>"""
+    # Verifica o status de autenticação
+    if st.session_state['authentication_status']:
+        # Logout e redirecionamento para a home
+        if authenticator.logout("Logout"):
+            st.session_state.page = 'home'  # Atualiza a página para 'home'
+            st.experimental_rerun()  # Reinicia a interface para refletir a mudança de página
+        
+        # Conteúdo da página autenticada
+        with st.container():  # Pode ajustar conforme sua estrutura de layout
+            st.success("Login bem-sucedido!")
+            with tab1:
+                titulo_positivo, titulo_negativo = "aberturas", "fechamentos"
+                firstTab.layout(
+                    df_real_filtered,
+                    total_aberturas,
+                    total_fechamentos,
+                    margem_abertura_fechamento,
+                    df_margem_abertura_fechamento,
+                    merge_abertura_fechamento,
+                )
 
-# st.markdown(footer_html, unsafe_allow_html=True)
+            with tab2:
+                titulo_bar1, titulo_bar2 = "porte", "natureza juridica"
+                secondTab.layout(
+                    df_real_filtered,
+                    ano,
+                    porte,
+                    municipio,
+                    atividade,
+                    titulo_bar1,
+                    titulo_bar2,
+                    df_total_ativas,
+                    servico_mais_ativo,
+                    servico_menos_ativo,
+                )
+    elif st.session_state['authentication_status'] is False:
+        st.error("Username/password is incorrect")
+    elif st.session_state['authentication_status'] is None:
+        st.warning("Please enter your username and password")
 
 
+# Controle de navegação
+if "page" not in st.session_state:
+    st.session_state.page = "home"
 
+if st.session_state.page == "home":
+    # Conteúdo da home
+    with tab1:
+        titulo_positivo, titulo_negativo = "aberturas", "fechamentos"
+        firstTab.layout(
+            df_real_filtered,
+            total_aberturas,
+            total_fechamentos,
+            margem_abertura_fechamento,
+            df_margem_abertura_fechamento,
+            merge_abertura_fechamento,
+        )
+
+    with tab2:
+        titulo_bar1, titulo_bar2 = "porte", "natureza juridica"
+        secondTab.layout(
+            df_real_filtered,
+            ano,
+            porte,
+            municipio,
+            atividade,
+            titulo_bar1,
+            titulo_bar2,
+            df_total_ativas,
+            servico_mais_ativo,
+            servico_menos_ativo,
+        )
+
+    # Botão para ir à página de login
+    if st.button("Ir para a página de login"):
+        st.session_state.page = "login"
+
+elif st.session_state.page == "login":
+    loginPage()
+elif st.session_state['authentication_status'] is False:
+    st.error('Username/password is incorrect')
+elif st.session_state['authentication_status'] is None:
+    st.warning('Please enter your username and password')
